@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <title>Register</title>
+    <style>
+    body {
+        background-image: url('https://static.vecteezy.com/system/resources/previews/011/109/400/original/doctor-touch-virtual-screen-icon-medicine-health-care-emergency-digital-technology-internet-on-background-copy-space-concept-free-photo.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <form class="form" method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p class="title">REGISTER</p>
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message" style="color: red;">{{message}}</p>
+            {% endfor %}
+        {% endif %}
+            <div class="flex">
+            <label>
+                <input required="" name="fname" placeholder="" type="text" class="input">
+                <span>First name</span>
+            </label>
+    
+            <label>
+                <input required="" name="lname" placeholder="" type="text" class="input">
+                <span>Last name</span>
+            </label>
+        </div>  
+                
+        <label>
+            <input required="" name="email" placeholder="" type="email" class="input">
+            <span>Email</span>
+        </label> 
+
+        <label>
+            <input required="" name="phone" placeholder="" type="text" class="input">
+            <span>Phone</span>
+        </label>
+         <label>
+            <input required="" name="password" placeholder="" type="password" class="input">
+            <span>Password</span>
+        </label>
+        <label>
+            <input required="" name="password1" placeholder="" type="password" class="input">
+            <span>Confirm password</span>
+        </label>
+        <button class="submit" name="s1" type="submit">Proceed</button>
+        <p class="signin">Already have an account ? <a href="/">Sign In</a> </p>
+    </form>
+</div>
+</body>
+</html>

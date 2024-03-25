@@ -1,0 +1,24 @@
+
+
+.img-cont{
+  background-size: cover;
+  background-position: center;
+  height: 25rem;
+  width: 25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 27rem;
+  margin-top: 5rem;
+}
+
+.img-cont img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.result{
+  margin-top: 1rem;
+  margin-left: 28.5rem;
+}

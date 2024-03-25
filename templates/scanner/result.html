@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=
+	, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'css/home.css' %}">
+	<link rel="stylesheet" href="{% static 'css/menu.css' %}">
+	<link rel="stylesheet" href="{% static 'css/result.css' %}">
+	<title>Home</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
+    <style>
+		
+	</style>
+</head>
+<body>
+	<div class="landing-page">
+		<div class="container">
+		  <div class="header-area">
+			<div class="logo">Onco<b>Detect</b></div>
+			<ul class="links">
+			  <li><a href="/" class="oth">Home</a></li>
+			  <li>About Us</li>
+			  <li>Your Profile</li>
+			  <a class="lgt" href="auth/logout"><li>Logout</li></a>
+			</ul>
+		  </div>
+		<div class="img-cont">
+          <img src="{{img_url}}" alt="mri">
+		</div>
+		<div class="result">
+			<h2>{{class_name}}</h2>
+		</div>
+	</div>
+
+</body>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=
+	, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'css/home.css' %}">
+	<link rel="stylesheet" href="{% static 'css/menu.css' %}">
+	<title>Home</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
+
+</head>
+<body>
+	<div class="landing-page">
+		<div class="container">
+		  <div class="header-area">
+			<div class="logo">Onco<b>Detect</b></div>
+			<ul class="links">
+			  <li><a href="/" class="oth">Home</a></li>
+			  <li>About Us</li>
+			  <li>Your Profile</li>
+			  <a class="lgt" href="/auth/logout"><li>Logout</li></a>
+			</ul>
+		  </div>
+	<div class="c-wrapper">
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col">
+			  <div class="card h-100">
+				<img src="{% static 'assets/images/lung.jpg' %}" class="card-img-top" alt="...">
+				<div class="card-body">
+				  <h5 class="card-title">Lung Cancer</h5>
+				  <p class="card-text">Upload the MRI scans and get results for Benign and Malignant Lung Cancer.</p>
+				</div>
+				<button type="button" class="btn-sm myclass" onclick="window.location.href='lung'">CHECK</button>
+				<!-- <div class="card-footer">
+				  <small class="text-muted">Last updated 3 mins ago</small>
+				</div> -->
+			  </div>
+			</div>
+			<div class="col">
+			  <div class="card h-100">
+				<img src="{% static 'assets/images/brain.jpg' %}" class="card-img-top" alt="...">
+				<div class="card-body">
+				  <h5 class="card-title">Brain Cancer</h5>
+				  <p class="card-text">Upload the MRI scans and get results for Glioma, Meningiome and Pitutary Tumor</p>
+				</div>
+				<button type="button" class="btn-sm myclass" onclick="window.location.href='brain'" >CHECK</button>
+				<!-- <div class="card-footer">
+				  <small class="text-muted">Last updated 3 mins ago</small>
+				</div> -->
+			  </div>
+			</div>
+			<div class="col">
+			  <div class="card h-100">
+				<img src="{% static 'assets/images/kidney.png' %}" class="card-img-top" alt="...">
+				<div class="card-body">
+				  <h5 class="card-title">Kidney Cancer</h5>
+				  <p class="card-text">Upload the MRI scans and get results for Cyst, Stone and Tumor in Kidney</p>
+				</div>
+				<button type="button" class="btn-sm myclass" onclick="window.location.href='kidney'">CHECK</button>
+				<!-- <div class="card-footer">
+				  <small class="text-muted">Last updated 3 mins ago</small>
+				</div> -->
+			  </div>
+			</div>
+		  </div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/approve.css' %}">
+    <title>Approve</title>
+</head>
+<body>
+    <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Registration Number</th>
+            <th>Hospital Name</th>
+            <th>Hospital Pincode</th>
+            <th>Verify</th>
+            <th>Reject</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+            <tr>
+                <td>{{ doctor.fname }} {{ doctor.lname }}</td>
+                <td>{{ doctor.email }}</td>
+                <td>{{ doctor.registration_number }}</td>
+                <td>{{ doctor.hospital_name }}</td>
+                <td>{{ doctor.hospital_pincode }}</td>
+                <td><form action="" method="POST">{% csrf_token %} <input type="text" value="{{doctor.email}}" name="doctor_user" hidden> <button type="submit" name="verify">Verify</button> </form></td>
+                <td><form action="" method="POST">{% csrf_token %} <input type="text" value="{{doctor.email}}" name="doctor_user" hidden> <button type="submit" name="reject">Reject</button> </form></td>
+            </tr>
+            {% endfor %}
+        
+        </tbody>
+    </table>
+        
+     
+</body>
+<script src="{% static 'js/approve.js' %}"></script>
+</html>
+
+
+                        <!-- <td>{{ doctor.fname }}</td>
+                        <td>{{ doctor.lname }}</td>
+                        <td>{{ doctor.email }}</td>
+                        <td>{{ doctor.registration_number }}</td>
+                        <td>{{ doctor.hospital_name }}</td>
+                        <td>{{ doctor.hospital_pincode }}</td>
+                        <td><form action="" method="POST">{% csrf_token %} <input type="text" value="{{doctor.email}}" name="doctor_user" hidden> <button type="submit">Verify</button> </form></td> -->

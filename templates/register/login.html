@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title>Login</title>
+    <style>
+body {
+  background-image: url('https://static.vecteezy.com/system/resources/previews/011/109/400/original/doctor-touch-virtual-screen-icon-medicine-health-care-emergency-digital-technology-internet-on-background-copy-space-concept-free-photo.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #fff;
+}
+</style>
+</head>
+<body>
+  <div class="login-container">
+    <section class="login" id="login">
+      <header>
+        <h2>OncoDetect</h2>
+        <h4> LOGIN</h4>
+        {% if messages %}
+          {% for message in messages %}
+            <p class="error" style="color: gray;" >{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      </header>
+      <form class="login-form" action="" method="post">
+        {% csrf_token %}
+        <input type="email" class="login-input" placeholder="Email" name="email" required autofocus/>
+        <input type="password" class="login-input" placeholder="Password" name="password" required/>
+        <div class="login-options">
+          <a href="/auth/register">SIGN UP</a>
+        </div>
+        <div class="submit-container">
+          <button type="submit" class="login-button">SIGN IN</button>
+        </div>
+      </form>
+    </section>
+    
+  </div>
+  
+
+
+</body>
+<script src="{% static 'js/login.js' %}"></script>
+</html>

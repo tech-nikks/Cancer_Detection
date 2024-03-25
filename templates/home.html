@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=
+	, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'css/home.css' %}">
+	<title>Home</title>
+</head>
+<body>
+	<div class="landing-page">
+		<div class="container">
+		  <div class="header-area">
+			<div class="logo">Can<b>Detect</b></div>
+			<ul class="links">
+			  <li><a href="/" class="oth">Home</a></li>
+			  <li>About Us</li>
+			  <li>Your Profile</li>
+			  <a href="auth/logout"><li>Logout</li></a>
+			</ul>
+		  </div>
+		  <div class="info">
+			<h1>Cancer Detection using ML models</h1>
+			<p>Our Website provides a platform to detect cancer using ML models. We have models for Lung Cancer, Brain Tumor and Kidney Cancer trained on an extensive dataset.
+			</p>
+			<button onclick="window.location.href='/menu'" >Get Started</button>
+		  </div>
+		  <div class="image">
+			<img src="{% static 'assets/images/landing.png' %}">
+		  </div>
+		  <div class="clearfix"></div>
+		</div>
+	  </div>
+</body>
+</html>
