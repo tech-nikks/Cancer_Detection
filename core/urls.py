@@ -8,6 +8,7 @@ urlpatterns = [
     path('menu/brain/', views.brain, name='brain'),
     path('menu/lung/', views.lung, name='lung'),
     path('menu/kidney/', views.kidney, name='kidney'),
+    path('menu/breast', views.breast, name="breast"),
     
 
 ]
