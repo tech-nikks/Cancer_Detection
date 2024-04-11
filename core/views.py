@@ -171,7 +171,7 @@ def kidney(request):
 
 def breast(request):
     """ 
-    20:56:20 09 Oct, 2019 by Arjun Adhikari
+  
     Reading training data set. 
     """
     df = pd.read_csv('static/Breast_train.csv')
@@ -181,7 +181,7 @@ def breast(request):
     print(X.shape, Y.shape)
 
     """ 
-    20:57:20 09 Oct, 2019 by Arjun Adhikari
+    
     Reading data from user. 
     """
     value = ''
@@ -194,7 +194,6 @@ def breast(request):
         smoothness = float(request.POST['smoothness'])
 
         """ 
-        21:02:21 09 Oct, 2019 by Arjun Adhikari
         Creating our training model. 
         """
         rf = RandomForestClassifier(
