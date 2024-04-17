@@ -41,4 +41,3 @@ def send_rejection_email(to_email,Name):
     smtp_server.quit()
 
 
-
