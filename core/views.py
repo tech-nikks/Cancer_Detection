@@ -36,48 +36,86 @@ def home(request):
 def menu(request):
     return render(request, 'scanner/menu.html')
 # @login_required(login_url='auth/login')
+# def brain(request):
+#     if request.method == 'POST':
+#         # user = request.user
+#         Patient_Name = request.POST.get('patient-name')
+#         file = request.FILES['mri-scan']
+#         # scan = Scan(user=user, Patient_Name=Patient_Name)
+#         # scan.save()
+#         # id = scan.id
+#         #save the image in the media folder with the id as the name and the extension
+#         unique_filename = str(uuid.uuid4())
+#         extension = file.name.split('.')[1]
+#         str_file = unique_filename + '.' + extension
+#         #save the image in the media folder with the id as the name and the extension
+#         file = ContentFile(file.read())
+#         default_storage.save('images/'+str(str_file), file)
+#         # scan.image = 'images/'+str(str_file)
+
+#         print(str_file)
+    
+#         # scan.save()
+#         img_url = 'media/images/'+str(str_file)
+#         # img_url = f"{settings.MEDIA_URL}images/{str_file}"
+#         model = tensorflow.keras.models.load_model('brain_tumor.h5')
+#         img = Image.open(img_url)
+#         x = np.array(img.resize((128,128)))
+#         if len(x.shape) == 2:
+#             x = np.stack((x,) * 3, axis=-1)
+#         x = x.reshape(1,128,128,3)
+#         # Predict the class of the input image
+#         res = model.predict(x)
+#         class_idx = np.where(res == np.amax(res))[1][0]
+#         class_labels = ["Tumor","Not a Tumor"]
+#         class_name = class_labels[class_idx]
+#         # scan.result = class_name
+#         # scan.save()
+#         print('Predicted class: ', class_name)
+#         print(img_url)
+        
+#         # return render(request, 'scanner/result.html', {'img_url':img_url})
+#         return render(request, 'scanner/result.html', {
+#             'image_url': img_url,
+#             'predicted_class': class_name
+#         })
+
+
+#     return render(request, 'scanner/brain.html')
 def brain(request):
     if request.method == 'POST':
-        # user = request.user
-        Patient_Name = request.POST.get('patient-name')
         file = request.FILES['mri-scan']
-        # scan = Scan(user=user, Patient_Name=Patient_Name)
-        # scan.save()
-        # id = scan.id
-        #save the image in the media folder with the id as the name and the extension
         unique_filename = str(uuid.uuid4())
-        extension = file.name.split('.')[1]
-        str_file = unique_filename + '.' + extension
-        #save the image in the media folder with the id as the name and the extension
-        file = ContentFile(file.read())
-        default_storage.save('images/'+str(str_file), file)
-        # scan.image = 'images/'+str(str_file)
+        extension = file.name.split('.')[-1]  # Safer way to get the extension
+        filename = f"{unique_filename}.{extension}"
+        
+        # Save the file and get the path
+        saved_path = default_storage.save(f'images/{filename}', ContentFile(file.read()))
+        
+        # Full path for model loading
+        full_path = os.path.join(settings.MEDIA_ROOT, saved_path)
+        
+        # URL for accessing via web
+        img_url = f"{settings.MEDIA_URL}{saved_path}"
 
-        print(str_file)
-    
-        # scan.save()
-        img_url = 'media/images/'+str(str_file)
+        # Load model and predict
         model = tensorflow.keras.models.load_model('brain_tumor.h5')
-        img = Image.open(img_url)
-        x = np.array(img.resize((128,128)))
+        img = Image.open(full_path)  # Use full path here
+        x = np.array(img.resize((128, 128)))
         if len(x.shape) == 2:
             x = np.stack((x,) * 3, axis=-1)
-        x = x.reshape(1,128,128,3)
-        # Predict the class of the input image
+        x = x.reshape(1, 128, 128, 3)
         res = model.predict(x)
-        class_idx = np.where(res == np.amax(res))[1][0]
-        class_labels = ["Tumor","Not a Tumor"]
+        class_idx = np.argmax(res)
+        class_labels = ["Tumor", "Not a Tumor"]
         class_name = class_labels[class_idx]
-        # scan.result = class_name
-        # scan.save()
-        print('Predicted class: ', class_name)
-        print(img_url)
-        
-        return render(request, 'scanner/result.html', {'img_url':img_url})
 
+        return render(request, 'scanner/result.html', {
+            'image_url': img_url,
+            'predicted_class': class_name
+        })
 
     return render(request, 'scanner/brain.html')
-
 # @login_required(login_url='auth/login')
 def lung(request):
     if request.method == 'POST':
