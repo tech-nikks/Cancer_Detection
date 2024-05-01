@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Cancer Detection Result</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/result.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
+    <style>
+        /* Add any additional styles here */
+    </style>
+</head>
+<body>
+    <div class="landing-page">
+        <div class="container">
+            <div class="header-area">
+                <div class="logo">Can<b>Detect</b></div>
+                <ul class="links">
+                    <li><a href="/" class="oth">Home</a></li>
+                    <li>About Us</li>
+                    <li>Your Profile</li>
+                    <a class="lgt" href="auth/logout"><li>Logout</li></a>
+                </ul>
+            </div>
+            <div class="img-cont">
+                <img src="data:image/png;base64,{{ image|safe }}" />
+            </div>
+            <div class="result">
+                <h2>{{ prediction }}</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

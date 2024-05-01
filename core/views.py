@@ -13,12 +13,28 @@ import uuid
 from register.models import Doctor
 import tensorflow 
 import cv2
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.core.files.storage import default_storage
+from PIL import Image
+import pydicom
+import numpy as np
+import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 from core.forms import BreastCancerForm
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from django.shortcuts import render
+from django.http import HttpResponse
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.preprocessing.image import img_to_array
+import pydicom
+from PIL import Image
+import base64
+import io
 # Create your views here.
 
 
@@ -160,52 +176,52 @@ def lung(request):
     return render(request, 'scanner/lung.html')
 
 # @login_required(login_url='auth/login')
-def kidney(request):
-     if request.method == 'POST':
-        user = request.user
-        Patient_Name = request.POST.get('patient-name')
-        file = request.FILES['mri-scan']
-        scan = Scan(user=user, Patient_Name=Patient_Name)
-        scan.save()
-        id = scan.id
-        #save the image in the media folder with the id as the name and the extension
-        unique_filename = str(uuid.uuid4())
-        extension = file.name.split('.')[1]
-        str_file = unique_filename + '.' + extension
-        #save the image in the media folder with the id as the name and the extension
-        file = ContentFile(file.read())
-        default_storage.save('images/'+str(str_file), file)
-        scan.image = 'images/'+str(str_file)
-        scan.save()
+# def kidney(request):
+#      if request.method == 'POST':
+#         user = request.user
+#         Patient_Name = request.POST.get('patient-name')
+#         file = request.FILES['mri-scan']
+#         scan = Scan(user=user, Patient_Name=Patient_Name)
+#         scan.save()
+#         id = scan.id
+#         #save the image in the media folder with the id as the name and the extension
+#         unique_filename = str(uuid.uuid4())
+#         extension = file.name.split('.')[1]
+#         str_file = unique_filename + '.' + extension
+#         #save the image in the media folder with the id as the name and the extension
+#         file = ContentFile(file.read())
+#         default_storage.save('images/'+str(str_file), file)
+#         scan.image = 'images/'+str(str_file)
+#         scan.save()
         
-        model = tensorflow.keras.models.load_model('kidney_model')
-        img = cv2.imread('media/images/'+str(str_file), cv2.IMREAD_GRAYSCALE)
-        img = cv2.resize(img, (512, 512))
-        img = np.reshape(img, (1, 512, 512, 1))
-        img = img.astype('float32') / 255
-        predictions = model.predict(img)
-        predicted_class = np.argmax(predictions)
-        c=0
-        if predicted_class == 0:
-                scan.result = 'Cyst Detected'
-                scan.save()
-        elif predicted_class == 1:
-                    scan.result = 'No Cancer Detected'
-                    scan.save()
-                    c=1
-        elif predicted_class == 2:
-                    scan.result = 'Stone Detected'
-                    scan.save()
-        else:
-                scan.result = 'Tumor Detected'
-                scan.save()
-        img_url = 'media/images/'+str(str_file)
+#         model = tensorflow.keras.models.load_model('kidney_model')
+#         img = cv2.imread('media/images/'+str(str_file), cv2.IMREAD_GRAYSCALE)
+#         img = cv2.resize(img, (512, 512))
+#         img = np.reshape(img, (1, 512, 512, 1))
+#         img = img.astype('float32') / 255
+#         predictions = model.predict(img)
+#         predicted_class = np.argmax(predictions)
+#         c=0
+#         if predicted_class == 0:
+#                 scan.result = 'Cyst Detected'
+#                 scan.save()
+#         elif predicted_class == 1:
+#                     scan.result = 'No Cancer Detected'
+#                     scan.save()
+#                     c=1
+#         elif predicted_class == 2:
+#                     scan.result = 'Stone Detected'
+#                     scan.save()
+#         else:
+#                 scan.result = 'Tumor Detected'
+#                 scan.save()
+#         img_url = 'media/images/'+str(str_file)
         
-        return render(request, 'scanner/result.html', {'scan':scan, 'img_url':img_url, 'c':c})
+#         return render(request, 'scanner/result.html', {'scan':scan, 'img_url':img_url, 'c':c})
 
 
 
-     return render(request, 'scanner/kidney.html')
+#      return render(request, 'scanner/kidney.html')
 
 def breast(request):
     """ 
@@ -264,5 +280,125 @@ def breast(request):
                       'form': BreastCancerForm(),
                   })
 
-    
 
+
+
+# Load the pre-trained model
+# model = tf.keras.models.load_model('my_model')
+
+# def dicom_to_png(dicom_path):
+#     # Load the DICOM file
+#     dicom_image = pydicom.read_file(dicom_path).pixel_array
+    
+#     # Convert DICOM to PNG
+#     png_image = Image.fromarray(dicom_image.astype(np.uint8))
+    
+#     # Resize the image to match the expected input shape
+#     png_image = png_image.resize((48, 48))
+    
+#     # Convert the image to a numpy array and add the channel dimension
+#     image = np.array(png_image)
+#     image = np.expand_dims(image, axis=-1)
+    
+#     return image
+
+# def predict_breast_cancer(model, dicom_path):
+#     # Convert DICOM to array that can be used by the model
+#     image = dicom_to_png(dicom_path)
+#     image = image / 255.0  # Normalize to [0, 1]
+#     image = np.expand_dims(image, axis=0)  # Add batch dimension
+
+#     # Predict
+#     prediction = model.predict(image)
+    
+    
+#     if prediction[0][0] >= 0.5:
+#         result = "Breast cancer present"
+#     else:
+#         result = "No breast cancer"
+    
+#     return result, image[0] 
+
+# def breast_cancer_detection(request):
+#     if request.method == 'POST' and 'file' in request.FILES:
+#         uploaded_file = request.FILES['file']
+        
+       
+#         with open("uploaded_file.dcm", "wb") as f:
+#             for chunk in uploaded_file.chunks():
+#                 f.write(chunk)
+
+       
+#         prediction, image = predict_breast_cancer(model, "uploaded_file.dcm")
+        
+#         return render(request, 'result1.html', {'prediction': prediction, 'image': image})
+#     else:
+#         return render(request, 'kidney.html')
+
+# Load the pre-trained model
+model = tf.keras.models.load_model('my_model')
+
+def dicom_to_png(dicom_path):
+    try:
+        # Load the DICOM file
+        dicom_image = pydicom.read_file(dicom_path).pixel_array
+        
+        # Convert DICOM to PNG
+        png_image = Image.fromarray(dicom_image.astype(np.uint8))
+        
+        # Resize the image to match the expected input shape
+        png_image = png_image.resize((48, 48))
+        
+        # Convert the image to a numpy array
+        image = np.array(png_image)
+        
+        return image
+    except Exception as e:
+        print(f"Error converting DICOM to PNG: {e}")
+        return None
+
+def predict_breast_cancer(model, dicom_path):
+    try:
+        # Convert DICOM to array that can be used by the model
+        image = dicom_to_png(dicom_path)
+        if image is None:
+            return "Error converting DICOM to PNG", None
+        
+        image = image / 255.0  # Normalize to [0, 1]
+        image = np.expand_dims(image, axis=0)  # Add batch dimension
+
+        # Predict
+        prediction = model.predict(image)
+        
+        # Convert prediction to a human-readable label
+        if prediction[0][0] >= 0.5:
+            result = "Breast cancer present"
+        else:
+            result = "No breast cancer"
+        
+        return result, image[0]  # Return the image without the batch dimension
+    except Exception as e:
+        print(f"Error predicting breast cancer: {e}")
+        return "Error predicting breast cancer", None
+
+def breast_cancer_detection(request):
+    if request.method == 'POST' and 'file' in request.FILES:
+        uploaded_file = request.FILES['file']
+        
+        # Save the uploaded file to disk
+        file_name = default_storage.save(uploaded_file.name, uploaded_file)
+        file_path = default_storage.path(file_name)
+        
+        # Predict on the uploaded DICOM file
+        prediction, image = predict_breast_cancer(model, file_path)
+        if image is None:
+            return render(request, 'result1.html', {'prediction': prediction, 'image': None})
+        
+        # Convert the image to a format that can be displayed in HTML
+        image = Image.fromarray((image * 255).astype(np.uint8))
+        response = HttpResponse(content_type="image/png")
+        image.save(response, "PNG")
+        
+        return render(request, 'result1.html', {'prediction': prediction, 'image': response.getvalue()})
+    else:
+        return render(request, 'kidney.html')
